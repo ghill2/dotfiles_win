@@ -3,4 +3,9 @@
 
 function ReloadProfile { . $PROFILE }
 
-New-Alias -Name ree -Value ReloadProfile -Force
+function RemoveEnvironment {
+    Remote-Item -Path '.\.venv' -Force
+ }
+
+New-Alias -Name re -Value ReloadProfile -Force
+New-Alias -Name rmenv -Value ReloadProfile -Force
