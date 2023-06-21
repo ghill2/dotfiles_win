@@ -8,4 +8,4 @@ function RemoveEnvironment {
  }
 
 New-Alias -Name re -Value ReloadProfile -Force
-New-Alias -Name rmenv -Value ReloadProfile -Force
+New-Alias -Name rmenv -Value RemoveEnvironment -Force
