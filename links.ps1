@@ -38,7 +38,7 @@ function Create-SymbolicLink {
 
 
 Create-SymbolicLink `
-    -Source ("C:\Users\f1\git\dotfiles_win\profile.ps1") `
+    -Source (Join-Path $PSScriptRoot "profile.ps1") `
     -Destination $PROFILE.CurrentUserCurrentHost
 
     
