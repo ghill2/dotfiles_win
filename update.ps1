@@ -1,13 +1,12 @@
-$PARENT = (Get-Item -Force -Path $MyInvocation.MyCommand.Path).Target | ForEach-Object { if ($_ -eq $null) { Split-Path $MyInvocation.MyCommand.Path } else { Split-Path $_ } }
-$GPARENT = Split-Path $PARENT
+if ($env:USERNAME -eq "g2") {
+    & "$PSScriptRoot/bootstrap.ps1"
+}
 
-& "$PARENT/bootstrap.ps1"
-& "$PARENT/links.ps1"
+& "$PSScriptRoot/bootstrap_shared.ps1"
+& "$PSScriptRoot/links.ps1"
 
-# & "$PARENT/packages.ps1"
+& "$PSScriptRoot/packages.ps1"
 
-# & "$PARENT/extensions.ps1"
+& "$PSScriptRoot/extensions.ps1"
 
-# & "$PARENT/settings.ps1"
-
-# Invoke-Expression $([System.IO.File]::ReadAllText("$PARENT/settings_shared"))
+& "$PSScriptRoot/settings.ps1"

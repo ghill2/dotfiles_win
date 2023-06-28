@@ -15,8 +15,5 @@ Enable-PSRemoting -SkipNetworkProfileCheck -Force
 Set-ExecutionPolicy Bypass -Scope Process -Force
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
 
-# Set the hostname Note: Renaming the computer requires administrative privileges, so make sure you are running PowerShell as an administrator.
-$hostname = Read-Host -Prompt 'Enter the new hostname or Ctrl-C to cancel'
-$computer = Get-WmiObject -Class Win32_ComputerSystem
-Rename-Computer $computer.Rename($hostname)
+
 

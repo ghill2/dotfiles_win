@@ -1,12 +1,9 @@
 $PARENT = Split-Path $MyInvocation.MyCommand.Path
-$GPARENT = Split-Path (Split-Path $MyInvocation.MyCommand.Path)
-. "$PARENT/shared.ps1"  # import ReadLines method
+. "$PARENT/_shared.ps1"  # import ReadLines method
 
-$definedExtensions = ReadLines -Path (Join-Path $GPARENT ".Brewfile") `
-                        | Where-Object { $_ -like "vscode*" } `
-                        | ForEach-Object { $_.Split(" ")[1].Trim('"') } `
+$definedExtensions = ReadLines -Path (Join-Path $PARENT "extensions.txt")
 
-
+Write-Output $definedExtensions
 
 
 foreach ($definedExtension in $definedExtensions) {

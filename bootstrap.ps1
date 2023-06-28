@@ -9,6 +9,11 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
+# Set the hostname Note: Renaming the computer requires administrative privileges, so make sure you are running PowerShell as an administrator.
+$hostname = Read-Host -Prompt 'Enter the new hostname or Ctrl-C to cancel'
+$computer = Get-WmiObject -Class Win32_ComputerSystem
+Rename-Computer $computer.Rename($hostname)
+
 # Enable SMB
 Write-Output "Enabling SMB..."
 Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -NoRestart
