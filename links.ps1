@@ -1,5 +1,7 @@
-$PARENT = (Get-Item -Force -Path $MyInvocation.MyCommand.Path).Target | ForEach-Object { if ($_ -eq $null) { Split-Path $MyInvocation.MyCommand.Path } else { Split-Path $_ } }
-$GPARENT = Split-Path $PARENT
+#$PARENT = (Get-Item -Force -Path $MyInvocation.MyCommand.Path).Target | ForEach-Object { if ($_ -eq $null) { Split-Path $MyInvocation.MyCommand.Path } else { Split-Path $_ } }
+#Write-Output $PARENT
+
+#$GPARENT = Split-Path $PARENT
 
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
@@ -36,13 +38,15 @@ function Create-SymbolicLink {
 
 
 Create-SymbolicLink `
-    -Source (Join-Path $GPARENT "profile.ps1") `
+    -Source ("C:\Users\f1\git\dotfiles_win\profile.ps1") `
     -Destination $PROFILE.CurrentUserCurrentHost
+
+    
     # -Destination (Join-Path -Path $Home -ChildPath 'Documents\PowerShell\Microsoft.PowerShell_profile.ps1')
     
-Create-SymbolicLink `
-    -Source (Join-Path $GPARENT ".bashrc") `
-    -Destination (Join-Path $Home ".bashrc")
+# Create-SymbolicLink `
+#     -Source (Join-Path $GPARENT ".bashrc") `
+#     -Destination (Join-Path $Home ".bashrc")
     
 # TODO pull settings.json, terminal_settings.json from mac dotfiles
 

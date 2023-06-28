@@ -1,0 +1,38 @@
+# specific versioning not working atm
+vscode
+visualstudio2019buildtools # --version=16.11.15.0
+visualstudio2019-workload-vctools # --version=1.0.1
+nodejs # --version=16.14.2
+pyenv-win
+make  # use in git-bash
+git
+linkshellextension
+lockhunter
+7zip
+notepadplusplus # open large csv files
+rsync
+slack
+everything
+es # everything CLI
+rustup.install
+llvm # nautilus needs clang to build
+razer-synapse-3
+vivaldi.install
+
+# memurai-developer.install
+# python@3.10 # using pyenv instead
+# docker-desktop
+# needed to install rust targets: rust not needed if rustup is installed. rustup target add x86_64-pc-windows-msvc
+# use with act. failed one first install, re-run this script again
+# act-cli
+# directoryopus # view file sizes
+# autohotkey
+# resilio-sync-home
+# googlechrome
+# wsl2 # needed for docker desktop to use wsl
+# github-desktop
+# firefox
+# pycharm
+# microsoft-windows-terminal
+# rust # using rustup instead, dont' have both.
+# cmake
