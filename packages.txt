@@ -1,5 +1,5 @@
 # specific versioning not working atm
-vscode
+
 visualstudio2019buildtools # --version=16.11.15.0
 visualstudio2019-workload-vctools # --version=1.0.1
 nodejs # --version=16.14.2
@@ -7,17 +7,23 @@ pyenv-win
 make  # use in git-bash
 git
 linkshellextension
-lockhunter
 7zip
 notepadplusplus # open large csv files
-rsync
-slack
-everything
-es # everything CLI
 rustup.install
 llvm # nautilus needs clang to build
-razer-synapse-3
-vivaldi.install
+
+
+
+# take out for now until recreating config
+# vscode
+# everything
+# es # everything CLI
+# lockhunter
+# slack
+# rsync
+# razer-synapse-3
+# vivaldi.install
+
 
 # memurai-developer.install
 # python@3.10 # using pyenv instead
