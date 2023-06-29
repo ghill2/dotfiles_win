@@ -136,9 +136,6 @@ elseif ($env:USERNAME -like "g*")  {
     PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
 }
 
-# To enable PowerShell to find files or scripts within a directory added to the Path, you can update the PSModulePath environment variable to include the path to your directory.
-PrependToUserPath $PARENT
-
 # to fix a build error when ssh'ed on all window comps
 #PrependToUserPath "Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/"
 #PrependToUserPath "Program Files (x86)\Windows Kits\10\Lib\10.0.19041.0\um\arm64"
