@@ -30,6 +30,13 @@ function pl {
     )
     [Environment]::GetEnvironmentVariable("PATH", $Type).Split(";")
 }
+function plm {
+    pl -Type Machine
+}
+function plu {
+    pl -Type User
+}
+
 
 function restart {
     Restart-Computer -Force
