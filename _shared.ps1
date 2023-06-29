@@ -1,3 +1,7 @@
+# Read the contents of the packages.txt file
+# excludes lines starting with #
+# trims comment from end
+# excludes lines that are only new line characters
 function ReadLines {
     param (
         [string]$Path

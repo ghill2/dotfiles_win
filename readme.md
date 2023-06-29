@@ -1,0 +1,2 @@
+Run bootstrap.ps1 command:
+```Invoke-WebRequest -Uri https://github.com/ghill2/dotfiles_win/blob/master/bootstrap.ps1 -OutFile %SystemRoot%\Temp\bootstrap.ps1; Invoke-Expression %SystemRoot%\Temp\bootstrap.ps1```

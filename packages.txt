@@ -1,30 +1,26 @@
 # specific versioning not working atm
-
+vscode
+tailscale
 visualstudio2019buildtools # --version=16.11.15.0
 visualstudio2019-workload-vctools # --version=1.0.1
 nodejs # --version=16.14.2
 pyenv-win
 make  # use in git-bash
-git
+git.install
 linkshellextension
 7zip
 notepadplusplus # open large csv files
 rustup.install
 llvm # nautilus needs clang to build
-
-
+rsync
 
 # take out for now until recreating config
-# vscode
 # everything
 # es # everything CLI
 # lockhunter
-# slack
-# rsync
-# razer-synapse-3
 # vivaldi.install
-
-
+# razer-synapse-3
+# slack
 # memurai-developer.install
 # python@3.10 # using pyenv instead
 # docker-desktop

@@ -9,11 +9,6 @@ if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     }
 }
 
-# Set the hostname Note: Renaming the computer requires administrative privileges, so make sure you are running PowerShell as an administrator.
-$hostname = Read-Host -Prompt 'Enter the new hostname or Ctrl-C to cancel'
-$computer = Get-WmiObject -Class Win32_ComputerSystem
-Rename-Computer $computer.Rename($hostname)
-
 # Enable SMB
 Write-Output "Enabling SMB..."
 Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -NoRestart
@@ -30,50 +25,6 @@ Set-ItemProperty -Path "HKCU:\SOFTWARE\Microsoft\Windows\CurrentVersion\Authenti
 Write-Output "Turning off UAC..."
 Set-ItemProperty -Path REGISTRY::HKEY_LOCAL_MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System -Name ConsentPromptBehaviorAdmin -Value 0
 Write-Output "Done."
-
-# Show Hidden Files, Protected OS Files and File Extensions in Explorer
-Write-Output "Configuring explorer (show hidden files / folders, protected OS files and file extensions)..."
-$key = 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
-Set-ItemProperty $key Hidden 1
-Set-ItemProperty $key HideFileExt 0
-Set-ItemProperty $key ShowSuperHidden 1
-Stop-Process -processname explorer
-Write-Output "Done."
-
-
-function Start-SSH-Service() {
-
-}
-
-# Enable SSH client
-Write-Output "Installing OpenSSH.Client..."
-$capability = Get-WindowsCapability -Online | Where-Object Name -like "OpenSSH.Client*"
-Write-Information $capability
-
-# if SSH client is not installed, install it.
-if ($capability.State -ne "Installed") {
-  Write-Information "Installing OpenSSH client"
-  Add-WindowsCapability -Online -Name $capability.name
-} else {
-  Write-Information "OpenSSH client installed allready..."
-  }
-
-# make sure SSH client is running and set to StartupType Automatic
-Get-Service ssh-agent | Set-Service -StartupType Automatic
-Get-Service ssh-agent | Start-Service
-
-Write-Information "Generating SSH Keygen - Hit Enter if nothing is displayed..."
-# create the ssh key - do not specify a directory, because if default location is used (~/.ssh/id_rsa) ssh-keygen will make the directory.
-if ($capability.State -ne "Installed") { 
-    # generate an ssh key for github
-    # https://docs.github.com/en/authentication/connecting-to-github-with-ssh/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent?platform=windows
-    ssh-keygen -t ed25519 # could support email address here
-    Write-Output "Created ssh key in ~/.ssh/ - Displaying PUBLIC key to copy into your github account."
-    Get-Content ~/.ssh/id_ed25519.pub
-    # to troubleshoot: ssh-add -l -> after this command, the key should be listed in the output
-    ssh-add ~/.ssh/id_ed25519
-}
-
 
 # Enable SSH server
 Write-Output "Installing OpenSSH.Server..."
@@ -102,6 +53,8 @@ Add-LocalGroupMember -Group "Remote Desktop Users" -Member $env:USERNAME  # add 
 
 # execute the script within the current PowerShell session
 & "$PARENT/bootstrap_shared.ps1"
+
+
 
 # Install pyenv - using package manager
 # Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
