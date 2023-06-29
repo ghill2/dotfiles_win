@@ -7,6 +7,7 @@ if (((Get-Item -Force -Path $PSCommandPath).LinkType) -eq "SymbolicLink") {
 
 function re {
     . $PROFILE
+    refreshenv
     Write-Output "Reloaded Powershell Profile..."
 }
 
