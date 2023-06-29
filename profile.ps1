@@ -1,8 +1,3 @@
-$PARENT = (Get-Item -Force -Path $MyInvocation.MyCommand.Path).Target | ForEach-Object { if ($_ -eq $null) { Split-Path $MyInvocation.MyCommand.Path } else { Split-Path $_ } }
-$GPARENT = Split-Path $PARENT
-
-Write-Output "profile sourced"
-Write-Output $PARENT
 function re {
     . $PROFILE
     Write-Output "Reloaded Powershell Profile..."
@@ -46,21 +41,25 @@ function PrependToUserPath($directory) {
     }
 }
 
+function a() {
+    git add .;
+    git commit -m $(Get-Date -Format "MM/dd/yyyy HH:mm:ss");
+    git push origin $(git rev-parse --abbrev-ref HEAD);
+}
+
 $env:PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring"
 
-
 if ($env:USERNAME -eq "t1") {
-
-PrependToUserPath ("C:\data\nautilus_trader")
-PrependToUserPath ("C:\data\pytower")
+    PrependToUserPath ("C:\data\nautilus_trader")
+    PrependToUserPath ("C:\data\pytower")
+}
+elseif ($env:USERNAME -eq "g1") {
+    PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
+    PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
 }
 
-if ($env:USERNAME -eq "g1") {
-PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
-PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
-}
+PrependToUserPath (Split-Path $PSScriptRoot)
 
-PrependToUserPath ($PARENT)
 
 # to fix a build error when ssh'ed on all window comps
 #PrependToUserPath "Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/"
