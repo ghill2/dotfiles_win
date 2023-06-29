@@ -43,7 +43,6 @@ Get-Service ssh-agent | Set-Service -StartupType Automatic
 Get-Service ssh-agent | Start-Service
 
 
-
 # Install chocolatey (just exits if installed)
 winrm quickconfig  # WinRM firewall exception will not work since one of the network connection types on this machine is set to Public. Change the network connection type to either Domain or Private and try again. Disable Hyper-V and Ethernet adapter to fix this.
 Set-Item -Path WSMan:\localhost\MaxEnvelopeSizeKb -Value 16384

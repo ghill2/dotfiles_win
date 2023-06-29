@@ -54,14 +54,8 @@ Add-LocalGroupMember -Group "Remote Desktop Users" -Member $env:USERNAME  # add 
 # execute the script within the current PowerShell session
 & "$PARENT/bootstrap_shared.ps1"
 
-
-
 # Install pyenv - using package manager
 # Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/pyenv-win/pyenv-win/master/pyenv-win/install-pyenv-win.ps1" -OutFile "./install-pyenv-win.ps1"; &"./install-pyenv-win.ps1"
-# refreshenv
-
-# Install poetry - using package manager
-# (Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | py -
 # refreshenv
 
 # CAUSED SSH in VSCODE TO CRASH. KEEP AS POWERSHELL

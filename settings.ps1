@@ -9,6 +9,13 @@ pyenv update # update available python versions in the list (pyenv install --lis
 pyenv install 3.10.11 --skip-existing  # Skip if the version appears to be installed already
 pyenv global 3.10.11
 
+
+# Install poetry - using package manager
+# Poetry need python to install, must be after pyenv
+# You can uninstall at any time by executing this script with the --uninstall option, and these changes will be reverted.
+(Invoke-WebRequest -Uri https://install.python-poetry.org -UseBasicParsing).Content | python -
+refreshenv
+
 poetry config virtualenvs.in-project true
 poetry config virtualenvs.create true
 poetry config virtualenvs.prefer-active-python true  # make poetry use pyenv python version
