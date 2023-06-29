@@ -42,9 +42,14 @@ function PrependToUserPath($directory) {
 }
 
 function c() {
-    git add .;
-    git commit -m $(Get-Date -Format "MM/dd/yyyy HH:mm:ss");
-    git push origin $(git rev-parse --abbrev-ref HEAD);
+    # If $? is $true, indicating the previous command executed successfully, the subsequent command is executed.
+    git add .
+    if ($?) {
+        git commit -m $(Get-Date -Format "MM/dd/yyyy HH:mm:ss")
+        if ($?) {
+            git push origin $(git rev-parse --abbrev-ref HEAD)
+        }
+    }
 }
 
 $env:PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring"
