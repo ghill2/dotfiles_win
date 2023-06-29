@@ -51,7 +51,12 @@ $capability = Get-WindowsCapability -Online | Where-Object Name -like "OpenSSH.C
 Write-Information $capability
 
 # if SSH client is not installed, install it.
-($capability.State -ne "Installed") ? (&{Write-Information "Installing OpenSSH client" ; Add-WindowsCapability -Online -Name $capability.Name}) : Write-Information "OpenSSH client installed allready..."
+if ($capability.State -ne "Installed") {
+  Write-Information "Installing OpenSSH client"
+  Add-WindowsCapability -Online -Name $capability.name
+} else {
+  Write-Information "OpenSSH client installed allready..."
+  }
 
 # make sure SSH client is running and set to StartupType Automatic
 Get-Service ssh-agent | Set-Service -StartupType Automatic
