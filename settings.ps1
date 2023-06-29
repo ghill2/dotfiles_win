@@ -16,19 +16,19 @@ poetry config virtualenvs.options.always-copy true
 
 rustup default stable
 
-if ($env:USERNAME -eq "g1") {
+if ($env:USERNAME -like "g*") {
     git config --global --add safe.directory ~/BU/projects/nautilus_trader
     git config --global --add safe.directory ~/BU/projects/pytower
     git config --global user.email "georgehill010@gmail.com"
     git config --global user.name "George Hill"
 }
-elseif ($env:USERNAME -eq "t1") {
+elseif ($env:USERNAME -like "t*") {
     git config --global --add safe.directory /data/pytower
     git config --global --add safe.directory /data/pytower
     git config --global user.email "tomhill000@gmail.com"
     git config --global user.name "squire-of-milverton"
 }
-elseif ($env:USERNAME -eq "f1") {
+elseif ($env:USERNAME -like "f*") {
     git config --global --add safe.directory ~/BU/projects/nautilus_trader
     git config --global --add safe.directory ~/BU/projects/pytower
     git config --global user.email "freddiehill000@gmail.com"
