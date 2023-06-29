@@ -37,7 +37,6 @@ function plu {
     pl -Type User
 }
 
-
 function restart {
     Restart-Computer -Force
 }
@@ -97,6 +96,13 @@ function run($filename) {
 
 function which($filename) {
     Get-Command $filename
+}
+
+function reset_python() {
+    pyenv update
+    pyenv uninstall -f 3.10.11
+    pyenv install 3.10.11
+    pyenv global 3.10.11
 }
 
 function PrependToUserPath($directory) {
