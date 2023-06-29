@@ -41,7 +41,7 @@ function PrependToUserPath($directory) {
     }
 }
 
-function a() {
+function c() {
     git add .;
     git commit -m $(Get-Date -Format "MM/dd/yyyy HH:mm:ss");
     git push origin $(git rev-parse --abbrev-ref HEAD);
