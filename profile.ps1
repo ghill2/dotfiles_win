@@ -24,6 +24,7 @@ function cy {
 }
 
 function pl {
+    # pl -Type Machine
     param(
         [string]$Type = "User" # or Machine
     )
