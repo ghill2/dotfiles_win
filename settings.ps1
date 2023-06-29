@@ -5,7 +5,7 @@
 # git config --global applies configuration on the user level
 
 # use pyenv install --list to list the available pyenv versions
-pyenv update (pyenv --version) # update available python versions in the list (pyenv install --list)
+pyenv update # update available python versions in the list (pyenv install --list)
 pyenv install 3.10.11 --skip-existing  # Skip if the version appears to be installed already
 pyenv global 3.10.11
 

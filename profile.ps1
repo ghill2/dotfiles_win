@@ -23,8 +23,10 @@ function cy {
 }
 
 function pl {
-    # $Env:Path.Split(";")
-    [Environment]::GetEnvironmentVariable("PATH", "User").Split(";")
+    param(
+        [string]$Type = "User" # or Machine
+    )
+    [Environment]::GetEnvironmentVariable("PATH", $Type).Split(";")
 }
 
 function restart {
@@ -46,15 +48,37 @@ function act() {
     . ./.venv/Scripts/activate
 }
 
-# NOT WORKING?
 function rmpath {
+    # rmpath -Path C:\Users\g1\AppData\Local\Microsoft\WindowsApps -Type User
     param(
-        [Parameter(Mandatory=$true)]
-        [string]$Path
+        [string]$Path,
+        [string]$Type = "User" # or Machine
     )
-    $existingPath = [Environment]::GetEnvironmentVariable('PATH', 'User')
-    $updatedPath = $existingPath -replace [regex]::Escape($Path), ''
-    [Environment]::SetEnvironmentVariable('PATH', $updatedPath, 'User')
+    $existingPath = [Environment]::GetEnvironmentVariable('PATH', $Type)
+    
+    if (-not ($existingPath -split ';' -contains $Path)) {
+        Write-Host ([String]::Format("Directory {0} not found on {1} PATH...", $Path, $Type))
+        continue
+    }
+
+    $items = [System.Collections.ArrayList]($existingPath -split ';')
+
+    Write-Host ([String]::Format("Removing {0}...", $Path))
+    while ($items -contains $Path) {
+        $items.Remove($Path)  # only removes first occurence
+    }
+    
+    # $items.RemoveAll("")
+    # $items.Remove("\n")
+    # $items.RemoveAll(";")
+
+    # Write-Host "Start"
+    # $items | ? { Write-Host $_ }
+
+    $updatedPath = ($items -join ";").Trim(";")
+    # Write-Host $updatedPath
+
+    [Environment]::SetEnvironmentVariable('PATH', $updatedPath, $Type)
 }
 
 # Powershell does not find .ps1 files on path automatically. Use this command to run the file.
