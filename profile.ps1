@@ -1,3 +1,10 @@
+# Get parent of script, follow symlink if needed
+if (((Get-Item -Force -Path $PSCommandPath).LinkType) -eq "SymbolicLink") {
+    $PARENT = Split-Path (Get-Item -Force -Path $PSCommandPath).Target
+} else {
+    $PARENT = Split-Path $PSCommandPath
+}
+
 function re {
     . $PROFILE
     Write-Output "Reloaded Powershell Profile..."
@@ -24,6 +31,41 @@ function restart {
     Restart-Computer -Force
 }
 
+function c() {
+    # If $? is $true, indicating the previous command executed successfully, the subsequent command is executed.
+    git add .
+    if ($?) {
+        git commit -m $(Get-Date -Format "MM/dd/yyyy HH:mm:ss")
+        if ($?) {
+            git push origin $(git rev-parse --abbrev-ref HEAD)
+        }
+    }
+}
+
+function act() {
+    . ./.venv/Scripts/activate
+}
+
+# NOT WORKING?
+function rmpath {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Path
+    )
+    $existingPath = [Environment]::GetEnvironmentVariable('PATH', 'User')
+    $updatedPath = $existingPath -replace [regex]::Escape($Path), ''
+    [Environment]::SetEnvironmentVariable('PATH', $updatedPath, 'User')
+}
+
+# Powershell does not find .ps1 files on path automatically. Use this command to run the file.
+function run($filename) {
+    & (Join-Path $PARENT ($filename.replace(".ps1", "") + ".ps1"))
+}
+
+function which($filename) {
+    Get-Command $filename
+}
+
 function PrependToUserPath($directory) {
     if (-not (Test-Path -Path $directory -PathType Container)) {
         Write-Host "Directory does not exist: $directory"
@@ -42,28 +84,6 @@ function PrependToUserPath($directory) {
     }
 }
 
-function c() {
-    # If $? is $true, indicating the previous command executed successfully, the subsequent command is executed.
-    git add .
-    if ($?) {
-        git commit -m $(Get-Date -Format "MM/dd/yyyy HH:mm:ss")
-        if ($?) {
-            git push origin $(git rev-parse --abbrev-ref HEAD)
-        }
-    }
-}
-
-# NOT WORKING?
-function rmpath {
-    param(
-        [Parameter(Mandatory=$true)]
-        [string]$Path
-    )
-    $existingPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
-    $updatedPath = $existingPath -replace [regex]::Escape($Path), ''
-    [Environment]::SetEnvironmentVariable('Path', $updatedPath, 'Machine')
-}
-
 # Avoid ssh error using poetry install
 # [WinError 1312] A specified logon session does not exist. It may already have been terminated
 $env:PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring"
@@ -77,14 +97,10 @@ elseif ($env:USERNAME -like "g*")  {
     PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
 }
 
-# Get parent of script, follow symlink if needed
-if (((Get-Item -Force -Path $PSCommandPath).LinkType) -eq "SymbolicLink") {
-    $PARENT = Split-Path (Get-Item -Force -Path $PSCommandPath).Target
-} else {
-    $PARENT = Split-Path $PSCommandPath
-}
+
+
+# To enable PowerShell to find files or scripts within a directory added to the Path, you can update the PSModulePath environment variable to include the path to your directory.
 PrependToUserPath $PARENT
-# Write-Host $PARENT
 
 # to fix a build error when ssh'ed on all window comps
 #PrependToUserPath "Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/"
