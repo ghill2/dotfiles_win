@@ -7,13 +7,8 @@ pyenv install 3.10 --skip-existing  # Skip if the version appears to be installe
 pyenv global 3.10
 
 poetry config virtualenvs.in-project true
-
-# using direnv so not neccessary to create the virtual environments
-# nautilus build fails with a direnv environment, maybe because python interpreter is aliased?
 poetry config virtualenvs.create true
-
-# make poetry use pyenv python version
-poetry config virtualenvs.prefer-active-python true
+poetry config virtualenvs.prefer-active-python true  # make poetry use pyenv python version
 poetry config virtualenvs.options.always-copy true
 
 rustup default stable
