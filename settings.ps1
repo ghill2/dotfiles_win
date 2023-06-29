@@ -1,4 +1,3 @@
-$PARENT = (Get-Item -Force -Path $MyInvocation.MyCommand.Path).Target | ForEach-Object { if ($_ -eq $null) { Split-Path $MyInvocation.MyCommand.Path } else { Split-Path $_ } }
 # start tailscale at login before user login screen (requires the service to be installed on the system.)
 # This DID NOT WORK on office-win
 # Set-Service -Name Tailscale -StartupType Automatic -Description "Runs in unattended mode"

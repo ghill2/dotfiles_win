@@ -1,7 +1,7 @@
-$PARENT = Split-Path $MyInvocation.MyCommand.Path
-. "$PARENT/_shared.ps1"  # import ReadLines method
 
-$definedExtensions = ReadLines -Path (Join-Path $PARENT "extensions.txt")
+. (Join-Path (Split-Path $PSScriptRoot) "_shared.ps1") # import ReadLines method
+
+$definedExtensions = ReadLines -Path (Join-Path (Split-Path $PSScriptRoot) "extensions.txt")
 
 Write-Output $definedExtensions
 

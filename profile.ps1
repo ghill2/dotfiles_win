@@ -54,11 +54,11 @@ function c() {
 
 $env:PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring"
 
-if ($env:USERNAME -eq "t1") {
+if ($env:USERNAME -like "t*") {
     PrependToUserPath ("C:\data\nautilus_trader")
     PrependToUserPath ("C:\data\pytower")
 }
-elseif ($env:USERNAME -eq "g1") {
+elseif ($env:USERNAME -like "t*")  {
     PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
     PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
 }

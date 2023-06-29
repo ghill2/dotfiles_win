@@ -2,11 +2,9 @@ param (
     [switch]$Force
 )
 
-$PARENT = Split-Path $MyInvocation.MyCommand.Path
-$GPARENT = Split-Path (Split-Path $MyInvocation.MyCommand.Path)
-. "$PARENT/_shared.ps1"  # import ReadLines method
+. (Join-Path (Split-Path $PSScriptRoot) "_shared.ps1") # import ReadLines method
 
-$definedPackages = ReadLines -Path (Join-Path $PARENT "packages.txt")
+$definedPackages = ReadLines -Path (Join-Path (Split-Path $PSScriptRoot) "packages.txt")
 
 # Install each package
 $installedPackages = (choco list --local-only --id-only --limit-output)
