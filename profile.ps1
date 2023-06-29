@@ -99,10 +99,14 @@ function which($filename) {
 }
 
 function reset_python() {
-    pyenv update
+    if (-not ((pyenv install --list) -contains "3.10.11")) {
+        pyenv update # update available python versions in the list (pyenv install --list)
+    }
     pyenv uninstall -f 3.10.11
     pyenv install 3.10.11
     pyenv global 3.10.11
+    & (pyenv which python) -m pip install poetry  # install poetry in pyenv python
+    & (pyenv which python) -m pip install --upgrade pip
 }
 
 function PrependToUserPath($directory) {
