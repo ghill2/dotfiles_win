@@ -2,9 +2,9 @@ param (
     [switch]$Force
 )
 
-. (Join-Path (Split-Path $PSScriptRoot) "_shared.ps1") # import ReadLines method
+. (Join-Path $PSScriptRoot "_shared.ps1")
 
-$definedPackages = ReadLines -Path (Join-Path (Split-Path $PSScriptRoot) "packages.txt")
+$definedPackages = ReadLines -Path (Join-Path $PSScriptRoot "packages.txt")
 
 # Install each package
 $installedPackages = (choco list --local-only --id-only --limit-output)

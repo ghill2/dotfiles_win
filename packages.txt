@@ -13,11 +13,11 @@ notepadplusplus # open large csv files
 rustup.install
 llvm # nautilus needs clang to build
 rsync
+lockhunter
+everything
 
-# take out for now until recreating config
-# everything
 # es # everything CLI
-# lockhunter
+# take out for now until recreating config
 # vivaldi.install
 # razer-synapse-3
 # slack

@@ -1,7 +1,7 @@
 
-. (Join-Path (Split-Path $PSScriptRoot) "_shared.ps1") # import ReadLines method
+. (Join-Path $PSScriptRoot "_shared.ps1") # import ReadLines method
 
-$definedExtensions = ReadLines -Path (Join-Path (Split-Path $PSScriptRoot) "extensions.txt")
+$definedExtensions = ReadLines -Path (Join-Path $PSScriptRoot "extensions.txt")
 
 Write-Output $definedExtensions
 

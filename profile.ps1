@@ -5,6 +5,8 @@ if (((Get-Item -Force -Path $PSCommandPath).LinkType) -eq "SymbolicLink") {
     $PARENT = Split-Path $PSCommandPath
 }
 
+. (Join-Path $PARENT "_shared.ps1")
+
 function re {
     . $PROFILE
     refreshenv
@@ -99,14 +101,48 @@ function which($filename) {
 }
 
 function reset_python() {
+    # choco uninstall pyenv-win -y
+    # Self-elevate the script if required
+    elevate;
     if (-not ((pyenv install --list) -contains "3.10.11")) {
         pyenv update # update available python versions in the list (pyenv install --list)
     }
     pyenv uninstall -f 3.10.11
-    pyenv install 3.10.11
+    pyenv install 3.10.11 --skip-existing  # Skip if the version appears to be installed already
     pyenv global 3.10.11
-    & (pyenv which python) -m pip install poetry  # install poetry in pyenv python
-    & (pyenv which python) -m pip install --upgrade pip
+    pip install --upgrade pip # & (pyenv which python) -m 
+    pip install poetry  # install poetry in pyenv python & (pyenv which python) -m 
+    refreshenv
+    if (Test-Path (Get-Command "poetry" -ErrorAction SilentlyContinue)) {
+        Write-Host "Poetry installed successfully..."
+    }
+    if (Test-Path (Get-Command "pyenv" -ErrorAction SilentlyContinue)) {
+        Write-Host "Poetry installed successfully..."
+    }
+    poetry config virtualenvs.in-project true
+    poetry config virtualenvs.create true
+    poetry config virtualenvs.prefer-active-python true  # make poetry use pyenv python version
+    poetry config virtualenvs.options.always-copy true
+    
+    # Write-Host (Join-Path $env:USERPROFILE ".pyenv")
+    # Remove-Item -Recurse -Force -Path "C:\Users\g1\.pyenv"
+    
+    # return
+    # choco install --force pyenv-win -y
+    # refreshenv
+    
+    # if (-not ((pyenv install --list) -contains "3.10.11")) {
+    #     pyenv update # update available python versions in the list (pyenv install --list)
+    # }
+
+    # pyenv uninstall -f 3.10.11
+    # pyenv install 3.10.11
+    # # pyenv rehash  # Rehash pyenv shims (run this after installing executables)
+    # pyenv global 3.10.11
+    # pip install poetry  # install poetry in pyenv python
+    # pip install --upgrade pip
+    # refreshenv
+
 }
 
 function PrependToUserPath($directory) {
@@ -120,6 +156,7 @@ function PrependToUserPath($directory) {
     if (-not ($existingPath -split ';' -contains $directory)) {
         $newPath = "$directory;$existingPath"
         [Environment]::SetEnvironmentVariable("PATH", $newPath, "User")
+        refreshenv
         Write-Host "Directory prepended to PATH: $directory"
     }
     else {
@@ -127,18 +164,43 @@ function PrependToUserPath($directory) {
     }
 }
 
+function PrependToPythonUserPath($directory) {
+    if (-not (Test-Path -Path $directory -PathType Container)) {
+        Write-Host "Directory does not exist: $directory"
+        return
+    }
+    
+    $existingPath = [Environment]::GetEnvironmentVariable("PYTHONPATH", "User")
+    
+    if (-not ($existingPath -split ';' -contains $directory)) {
+        $newPath = "$directory;$existingPath"
+        [Environment]::SetEnvironmentVariable("PYTHONPATH", $newPath, "User")
+        refreshenv
+        Write-Host "Directory prepended to PYTHONPATH: $directory"
+    }
+    else {
+        Write-Host "Directory already exists in PYTHONPATH: $directory"
+    }
+    
+}
+
 # Avoid ssh error using poetry install
 # [WinError 1312] A specified logon session does not exist. It may already have been terminated
 $env:PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring"
 
-if ($env:USERNAME -like "t*") {
-    PrependToUserPath ("C:\data\nautilus_trader")
-    PrependToUserPath ("C:\data\pytower")
-}
-elseif ($env:USERNAME -like "g*")  {
-    PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
-    PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
-}
+PrependToPythonUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
+PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
+
+PrependToPythonUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
+PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
+
+# if ($env:USERNAME -like "t*") {
+#     PrependToPythonUserPath ("C:\data\nautilus_trader")
+#     PrependToPythonUserPath ("C:\data\pytower")
+# }
+# elseif ($env:USERNAME -like "g*")  {
+    
+# }
 
 # to fix a build error when ssh'ed on all window comps
 #PrependToUserPath "Program Files (x86)/Windows Kits/10/Include/10.0.19041.0/um/"
