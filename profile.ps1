@@ -54,7 +54,8 @@ function c() {
     }
 }
 
-function act() {
+# DONT use act as alias - overrides act - run github actions locally
+function venv_activate() {
     . ./.venv/Scripts/activate
 }
 
