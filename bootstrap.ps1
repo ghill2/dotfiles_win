@@ -1,5 +1,9 @@
 # https://github.com/soda3x/windows-bootstrap/blob/main/elevated-bootstrap.ps1
 
+
+# A VERY WELL MADE bootstrap script to use as a reference:
+# https://github.com/CircleCI-Public/runner-installation-files/blob/main/windows-install/Install-CircleCIRunner.ps1
+
 # Self-elevate the script if required
 if (-Not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] 'Administrator')) {
     if ([int](Get-CimInstance -Class Win32_OperatingSystem | Select-Object -ExpandProperty BuildNumber) -ge 6000) {
@@ -14,6 +18,12 @@ Write-Output "Enabling SMB..."
 Enable-WindowsOptionalFeature -Online -FeatureName "SMB1Protocol" -NoRestart
 Set-NetFirewallRule -DisplayName "File and Printer Sharing (SMB-In)" -Profile Private -Enabled True
 Set-NetFirewallRule -DisplayName "File and Printer Sharing (SMB-In)" -Profile Public -Enabled True  # CAUTION!
+
+
+if ($env:USERNAME -like "f*") {
+  New-SmbShare -Name trading -Path C:\Users\f1\trading
+  Grant-SmbShareAccess -Name "trading" -AccountName "f1" -AccessRight Full 
+}
 
 # Enable automatic lock
 Set-ItemProperty -Path "HKCU:\Control Panel\Desktop" -Name "ScreenSaveTimeOut" -Value 60 * 10  # in seconds

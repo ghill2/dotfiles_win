@@ -16,6 +16,15 @@ rsync
 lockhunter
 everything
 
+docker-cli
+docker-machine
+docker-compose
+docker-desktop
+
+# for debugging on thomas comp
+# neovim
+# lazygit
+
 # es # everything CLI
 # take out for now until recreating config
 # vivaldi.install

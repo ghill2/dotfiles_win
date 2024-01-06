@@ -45,3 +45,16 @@ elseif ($env:USERNAME -like "f*") {
 # Self-elevate the script if required, needed to add poetry to PATH
 # TODO, run reset_python from profile.ps1
 reset_python
+
+
+# Docker
+# net start com.docker.service
+
+
+# Docker Desktop needs to be manually opened for it to run
+
+
+# Installing Jenkins:
+# choco install openjdk
+# refreshenv
+# choco install jenkins

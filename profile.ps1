@@ -189,11 +189,11 @@ function PrependToPythonUserPath($directory) {
 # [WinError 1312] A specified logon session does not exist. It may already have been terminated
 $env:PYTHON_KEYRING_BACKEND = "keyring.backends.null.Keyring"
 
-PrependToPythonUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
-PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
+# PrependToPythonUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
+# PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/nautilus_trader")
 
-PrependToPythonUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
-PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
+# PrependToPythonUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
+# PrependToUserPath (Join-Path $env:USERPROFILE "BU/projects/pytower")
 
 # if ($env:USERNAME -like "t*") {
 #     PrependToPythonUserPath ("C:\data\nautilus_trader")

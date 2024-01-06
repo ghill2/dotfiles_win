@@ -4,6 +4,9 @@
 # this is a port of the configuration for pyenv configuration on windows.
 # convert this to bash, so there is a single setup that can configure all osx and windows comps.
 
+# TODO: convert poetry config commmands to a symlinked file at the /Library/Application Support/pypoetry
+# why? if poetry 
+
 
 if ! pyenv install --list | grep -q 3.10.11; then
     pyenv update
@@ -21,5 +24,7 @@ fi
 
 poetry config virtualenvs.in-project true
 poetry config virtualenvs.create true
-poetry config virtualenvs.prefer-active-python true  # make poetry use pyenv python version
+
+ # make poetry use pyenv python version
+poetry config virtualenvs.prefer-active-python true 
 poetry config virtualenvs.options.always-copy true
